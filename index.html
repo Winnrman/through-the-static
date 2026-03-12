@@ -6,7 +6,7 @@
   <title>THROUGH THE STATIC</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -106,6 +106,37 @@
         <div id="map-detail-desc">click any non-home district to view intel and launch expeditions.</div>
         <div id="map-detail-yields"></div>
         <div id="map-expedition-log"></div>
+
+        <!-- Loadout — hidden until a district is selected -->
+        <div id="loadout-panel" class="hidden">
+          <div id="loadout-heading">// loadout</div>
+          <div id="loadout-rows">
+            <div class="loadout-row" id="loadout-row-rations">
+              <span class="loadout-label">rations</span>
+              <div class="loadout-controls">
+                <button class="loadout-btn" id="loadout-rations-dec">−</button>
+                <span class="loadout-val" id="loadout-rations-val">0</span>
+                <button class="loadout-btn" id="loadout-rations-inc">+</button>
+              </div>
+              <span class="loadout-stock" id="loadout-rations-stock"></span>
+            </div>
+            <div class="loadout-row" id="loadout-row-meds">
+              <span class="loadout-label">meds</span>
+              <div class="loadout-controls">
+                <button class="loadout-btn" id="loadout-meds-dec">−</button>
+                <span class="loadout-val" id="loadout-meds-val">0</span>
+                <button class="loadout-btn" id="loadout-meds-inc">+</button>
+              </div>
+              <span class="loadout-stock" id="loadout-meds-stock"></span>
+            </div>
+            <div class="loadout-row hidden" id="loadout-row-equipment">
+              <span class="loadout-label">equipment</span>
+              <div id="loadout-equipment-slots"></div>
+            </div>
+          </div>
+          <div id="loadout-hint">meds treat wounds in the field. rations sustain a long run.</div>
+        </div>
+
         <button id="map-run-btn" disabled>
           <div id="map-run-progress"></div>
           <span id="map-run-label">launch expedition</span>
@@ -145,21 +176,21 @@
 </div>
 
 <!-- ═══ MODULES — load order matters ═══ -->
-<script src="src/engine.js"></script>
-<script src="src/ui.js"></script>
-<script src="src/names.js"></script>
-<script src="src/survivors.js"></script>
-<script src="src/events.js"></script>
-<script src="src/map.js"></script>
-<script src="src/afting.js"></script>
-<script src="src/job-events.js"></script>
-<script src="src/confrontation.js"></script>
-<script src="src/foraging.js"></script>
-<script src="src/map.js"></script>
-<script src="src/endgame.js"></script>
-<script src="src/shelter.js"></script>
-<script src="src/dev-console.js"></script>
-<script src="src/boot.js"></script>
+<script src="engine.js"></script>
+<script src="ui.js"></script>
+<script src="names.js"></script>
+<script src="survivors.js"></script>
+<script src="events.js"></script>
+<script src="crafting.js"></script>
+<script src="job-events.js"></script>
+<script src="confrontation.js"></script>
+<script src="foraging.js"></script>
+<script src="loadout.js"></script>
+<script src="map.js"></script>
+<script src="endgame.js"></script>
+<script src="shelter.js"></script>
+<script src="dev-console.js"></script>
+<script src="boot.js"></script>
 
 </body>
 </html>

@@ -1,3 +1,5 @@
+![screenshot](./screenshot.png)
+
 # Through the Static
 
 *The city is quiet. It shouldn't be.*

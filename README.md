@@ -1,6 +1,6 @@
 ![THROUGH THE STATIC](./title.png)
 
-![screenshot](./screenshot.png)
+![screenshot](./assets/screenshot.png)
 
 *The city is quiet. It shouldn't be.*
 
@@ -14,11 +14,15 @@ You're holed up in the basement of an abandoned building, surviving under the wa
 🌆 Run surface expeditions — scavenge for resources and uncover intel
 📡 Unravel the mystery — learn why the robots exist, and what they really want
 
-
 ## Running the Game
-No setup required. Download or clone the repo, then open index.html in any modern browser.
-bashgit clone https://github.com/yourname/through-the-static
-### then open index.html
+No setup required. Download or clone the repo, then open `index.html` in any modern browser.
+
+```bash
+git clone https://github.com/Winnrman/through-the-static
+cd through-the-static
+```
+
+Then open `index.html`.
 
 ## Built With
 Pure HTML and JavaScript. No frameworks, no backend, no dependencies.
@@ -29,4 +33,3 @@ Pull requests are welcome. A few ground rules:
 Always push to dev, never directly to main
 Keep PRs focused — one feature or fix at a time
 If you're adding a major mechanic, open an issue first so we can talk through it
-

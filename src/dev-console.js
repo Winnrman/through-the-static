@@ -236,7 +236,14 @@ window.game = (() => {
     },
   };
 
-  // ── help ──
+  // ── raid ──
+  const raid = {
+    probe:       () => { _log('forcing probe raid');       Raids.forceRaid('probe'); },
+    strike:      () => { _log('forcing strike raid');      Raids.forceRaid('strike'); },
+    assault:     () => { _log('forcing assault raid');     Raids.forceRaid('assault'); },
+    coordinated: () => { _log('forcing coordinated raid'); Raids.forceRaid('coordinated'); },
+  };
+
   function help() {
     console.log('%c── STATIC DEV CONSOLE ──', 'color:#c8ff00;font-size:14px;font-weight:bold');
     console.log('%cResources', 'color:#c8ff00;font-weight:bold');
@@ -274,9 +281,14 @@ window.game = (() => {
     console.log('  game.flags.clear("flag")   — set a flag false');
     console.log('%cMap', 'color:#c8ff00;font-weight:bold');
     console.log('  game.map.tower()           — reveal relay tower');
+    console.log('%cRaids', 'color:#c8ff00;font-weight:bold');
+    console.log('  game.raid.probe()          — force a probe raid');
+    console.log('  game.raid.strike()         — force a strike raid');
+    console.log('  game.raid.assault()        — force an assault raid');
+    console.log('  game.raid.coordinated()    — force a coordinated assault');
   }
 
   _log('dev console ready — type game.help() for commands');
 
-  return { give, survivors, event, map, state, flags, help };
+  return { give, survivors, event, map, state, flags, raid, help };
 })();

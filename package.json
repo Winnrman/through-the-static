@@ -1,0 +1,26 @@
+{
+  "name": "through-the-static",
+  "version": "1.0.0",
+  "description": "![THROUGH THE STATIC](./title.png)",
+  "main": "boot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "live-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Winnrman/through-the-static.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Winnrman/through-the-static/issues"
+  },
+  "homepage": "https://github.com/Winnrman/through-the-static#readme",
+  "devDependencies": {
+    "live-server": "^1.2.0",
+    "nodemon": "^3.1.14"
+  }
+}

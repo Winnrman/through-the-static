@@ -1,3 +1,5 @@
+![THROUGH THE STATIC](./title.png)
+
 ![screenshot](./screenshot.png)
 
 # Through the Static

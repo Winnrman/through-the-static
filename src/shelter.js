@@ -60,6 +60,7 @@ const Shelter = (() => {
   function phase1_setup() {
     UI.log('');
     UI.log('dim light fills the basement. a start.', 'bright');
+    Loadout.init();
     setTimeout(() => {
       UI.log("there\'s debris everywhere. might be useful.", 'dim');
       UI.removeButton('start_gen');
@@ -89,6 +90,7 @@ const Shelter = (() => {
             UI.log('scraps of city maps, stitched together on the wall.', 'dim');
             UI.log('enough to work with.', 'bright');
             Map.unlock();
+            Crafting.unlockExpeditionGear();
           }, 3000);
         }
 
@@ -430,6 +432,12 @@ const Shelter = (() => {
   }
 
   function onForage() {
+    // Can't send people out if a map expedition is already running
+    if (Engine.getFlag('expedition_in_progress')) {
+      UI.notify('party is already out on an expedition.');
+      return false;
+    }
+
     const living = Survivors.getLiving();
     const genOn  = Engine.get('generatorOn');
 
@@ -521,7 +529,7 @@ const Shelter = (() => {
 
     // Small risk — synths in the party may have relayed your position
     const synthsPresent = living.filter(s => s.isSynth && !s.revealed).length;
-    if (synthsPresent > 0 && Math.random() < 0.15 * synthsPresent) {
+    if (synthsPresent > 0 && Math.random() < 0.15 * synthsPresent && !Engine.getFlag('jammer_active')) {
       Engine.set('synthRisk', Math.min(0.5, Engine.get('synthRisk') + 0.05));
       setTimeout(() => UI.log("something felt wrong about that run. can\'t place it.", 'warning'), 1200);
     }

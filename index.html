@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THROUGH THE STATIC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div id="game">
+
+  <!-- HEADER -->
+  <div id="header">
+    <div id="title">THROUGH THE STATIC</div>
+    <div id="header-right">
+      <div id="day-counter">day <span id="day-num">1</span></div>
+      <div id="trust-container" class="hidden">
+        <div id="trust-label">settlement trust</div>
+        <div id="trust-bar-outer">
+          <div id="trust-bar-inner"></div>
+        </div>
+        <div id="trust-value">100</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEFT PANEL: crafting -->
+  <div id="craft-panel">
+    <div class="panel-section">
+      <div class="panel-heading">// crafting</div>
+      <div id="craft-actions">
+        <div id="craft-empty" style="font-size:12px;color:var(--dim);margin-top:8px;line-height:1.7;">
+          nothing yet.<br>get the generator<br>running first.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN PANEL -->
+  <div id="main-panel">
+    <div class="scene-title" id="scene-label">// basement — sector 7</div>
+
+    <!-- Generator status -->
+    <div id="generator-status">
+      <div class="gen-light" id="gen-light"></div>
+      <div class="gen-label" id="gen-label">generator: offline</div>
+    </div>
+
+    <!-- Status row (power, food, etc) -->
+    <div id="status-row" class="hidden">
+      <div class="status-item">
+        <div class="status-label">power</div>
+        <div class="status-value" id="stat-power">--</div>
+      </div>
+      <div class="status-item">
+        <div class="status-label">food</div>
+        <div class="status-value" id="stat-food">--</div>
+      </div>
+      <div class="status-item hidden" id="stat-pop-item">
+        <div class="status-label">survivors</div>
+        <div class="status-value" id="stat-pop">0</div>
+      </div>
+    </div>
+
+    <!-- Log -->
+    <div id="log"></div>
+
+    <!-- Actions -->
+    <div id="actions"></div>
+  </div>
+
+  <!-- SIDE PANEL -->
+  <div id="side-panel">
+
+    <div class="panel-section" id="resources-section" style="display:none">
+      <div class="panel-heading">supplies</div>
+      <div id="resources-list"></div>
+    </div>
+
+    <div class="panel-section" id="survivors-section" style="display:none">
+      <div class="panel-heading">shelter roster</div>
+      <div id="survivors-list"></div>
+    </div>
+
+  </div>
+
+  <!-- MAP PANEL -->
+  <div id="map-panel">
+    <div id="map-header">
+      <div id="map-title">// city grid — known districts</div>
+      <div id="map-legend">
+        <div class="legend-item"><div class="legend-swatch" style="color:var(--dim)"></div>low</div>
+        <div class="legend-item"><div class="legend-swatch" style="color:var(--muted)"></div>medium</div>
+        <div class="legend-item"><div class="legend-swatch" style="color:var(--warning)"></div>high</div>
+        <div class="legend-item"><div class="legend-swatch" style="color:var(--danger)"></div>extreme</div>
+      </div>
+    </div>
+    <div id="map-body">
+      <div id="map-grid"></div>
+      <div id="map-detail">
+        <div id="map-detail-name">select a district</div>
+        <div id="map-detail-meta"></div>
+        <div id="map-detail-desc">click any non-home district to view intel and launch expeditions.</div>
+        <div id="map-detail-yields"></div>
+        <div id="map-expedition-log"></div>
+        <button id="map-run-btn" disabled>
+          <div id="map-run-progress"></div>
+          <span id="map-run-label">launch expedition</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- EVENT MODAL -->
+<div id="event-overlay">
+  <div id="event-modal">
+    <div id="event-title"></div>
+    <div id="event-text"></div>
+    <div id="event-choices"></div>
+  </div>
+</div>
+
+<!-- NOTIFICATION -->
+<div class="notify" id="notify"></div>
+
+<!-- DEBRIEF OVERLAY -->
+<div id="debrief-overlay">
+  <div id="debrief-modal">
+    <div id="debrief-title">// after action report — venn neutralised</div>
+    <div id="debrief-stats-section">
+      <div class="debrief-section-title">run statistics</div>
+      <div class="debrief-stats" id="debrief-stats"></div>
+    </div>
+    <div id="debrief-roster-section">
+      <div class="debrief-section-title">shelter roster — full disclosure</div>
+      <div class="debrief-roster" id="debrief-roster"></div>
+    </div>
+    <button id="debrief-close">— acknowledged —</button>
+  </div>
+</div>
+
+<!-- ═══ MODULES — load order matters ═══ -->
+<script src="engine.js"></script>
+<script src="ui.js"></script>
+<script src="names.js"></script>
+<script src="survivors.js"></script>
+<script src="events.js"></script>
+<script src="crafting.js"></script>
+<script src="job-events.js"></script>
+<script src="confrontation.js"></script>
+<script src="foraging.js"></script>
+<script src="map.js"></script>
+<script src="endgame.js"></script>
+<script src="shelter.js"></script>
+<script src="dev-console.js"></script>
+<script src="boot.js"></script>
+
+</body>
+</html>

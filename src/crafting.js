@@ -69,6 +69,57 @@ const Crafting = (() => {
         UI.log('sealed containers. rations will last longer now.', 'bright');
       }
     },
+    {
+      id: 'field_medkit',
+      label: 'craft field med kits',
+      desc: 'consumable. load into expedition loadout to treat wounds in the field instead of burning shelter meds on return.',
+      cost: { meds: 2, scrap: 2 },
+      unlocked: false,
+      oneTime: false,
+      onCraft: () => {
+        Loadout.registerEquipment('field_medkit', 'field med kit');
+        UI.log('field med kit ready. pack it before the next run.', 'bright');
+      }
+    },
+    {
+      id: 'signal_jammer',
+      label: 'build a signal jammer',
+      desc: 'one-use. blocks synth relay during an expedition — prevents synthRisk bonus while your party is out. consumed on launch.',
+      cost: { components: 3, cells: 2 },
+      unlocked: false,
+      oneTime: false,
+      onCraft: () => {
+        Loadout.registerEquipment('signal_jammer', 'signal jammer');
+        UI.log('jammer assembled. pack it before a high-risk run.', 'bright');
+        UI.log('one use. blocks synth relay while the party is out.', 'dim');
+      }
+    },
+    {
+      id: 'silencer_kit',
+      label: 'build a silencer kit',
+      desc: 'one-use. reduces injury chance on loud approach choices during an expedition.',
+      cost: { scrap: 6, components: 2 },
+      unlocked: false,
+      oneTime: false,
+      onCraft: () => {
+        Loadout.registerEquipment('silencer_kit', 'silencer kit');
+        UI.log('suppressor kit packed. loud choices will cost less.', 'bright');
+      }
+    },
+    {
+      id: 'binoculars',
+      label: 'build binoculars',
+      desc: 'passive. district threat level shown before you commit to launching. durability: 8 expeditions.',
+      cost: { scrap: 4, components: 2 },
+      unlocked: false,
+      oneTime: true,
+      onCraft: () => {
+        Engine.setFlag('has_binoculars');
+        Engine.set('binocular_uses', 8);
+        UI.log('binoculars assembled. district intel improves.', 'bright');
+        UI.log('threat level will be confirmed before you launch.', 'dim');
+      }
+    },
   ];
 
   function unlock(id) {
@@ -85,6 +136,16 @@ const Crafting = (() => {
   function unlockAll() {
     // Base recipes available after generator starts
     ['scrap_to_cells', 'reinforce_store', 'ration_store'].forEach(unlock);
+  }
+
+  function unlockExpeditionGear() {
+    // Unlocked once map is active — these only matter once you're running expeditions
+    ['field_medkit', 'binoculars'].forEach(unlock);
+  }
+
+  function unlockAdvancedGear() {
+    // Unlocked via engineer/mechanic job events
+    ['signal_jammer', 'silencer_kit'].forEach(unlock);
   }
 
   function _renderButton(recipe) {
@@ -160,5 +221,5 @@ const Crafting = (() => {
     }
   }
 
-  return { unlock, unlockAll };
+  return { unlock, unlockAll, unlockExpeditionGear, unlockAdvancedGear };
 })();

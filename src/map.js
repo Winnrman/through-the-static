@@ -259,6 +259,9 @@ const Map = (() => {
       btn.disabled    = false;
       label.textContent = `launch expedition → ${d.name}`;
     }
+
+    // Show loadout panel (hidden if running)
+    if (!_running) Loadout.show();
   }
 
   // ── EXPEDITION ──
@@ -310,6 +313,19 @@ const Map = (() => {
 
     _running = true;
     _runTarget = d;
+    Engine.setFlag('expedition_in_progress', true);
+
+    // Commit loadout — deducts from shelter, returns what the party is carrying
+    const pack = Loadout.commit();
+    Loadout.hide();
+
+    // Signal jammer — blocks synth relay bonus during this expedition
+    const jammed = Loadout.hasEquipment('signal_jammer');
+    if (jammed) {
+      Loadout.consumeEquipment('signal_jammer');
+      Engine.setFlag('jammer_active', true);
+      setTimeout(() => UI.log('signal jammer active. synth relay suppressed.', 'dim'), 500);
+    }
 
     const btn      = document.getElementById('map-run-btn');
     const label    = document.getElementById('map-run-label');
@@ -352,7 +368,10 @@ const Map = (() => {
       injured: false,
       kia: false,
       retreated: false,
-      stageTag: 'quiet', // approach choice propagates to later stages
+      stageTag: 'quiet',
+      pack,             // what the party brought from shelter
+      medsUsed: 0,      // field meds consumed during run
+      rationsUsed: 0,   // rations consumed (stamina drain on long runs)
     };
 
     setTimeout(() => {
@@ -395,8 +414,14 @@ const Map = (() => {
   }
 
   function _pickRiskyOutcome(choice, expState) {
-    // Risky choices roll for bad outcome
-    const rollBad = Math.random() < 0.45;
+    // Silencer kit reduces injury chance on risky choices
+    const hasSilencer = Loadout.hasEquipment('silencer_kit');
+    const badChance = hasSilencer ? 0.22 : 0.45;
+    if (hasSilencer && Math.random() < 0.99) {
+      // Consume on first use this expedition
+      Loadout.consumeEquipment('silencer_kit');
+    }
+    const rollBad = Math.random() < badChance;
     if (rollBad && choice.riskOutcome) {
       const o = choice.riskOutcome;
       if (o.yieldMod !== undefined) expState.yieldMod *= o.yieldMod;
@@ -537,7 +562,10 @@ const Map = (() => {
 
     // Synth route compromise (separate from corruption — passive marking)
     const synthsPresent = Survivors.getLiving().filter(s => s.isSynth && !s.revealed);
-    if (synthsPresent.length > 0 && Math.random() < 0.20 && !expState.retreated) {
+    const jammerWasActive = Engine.getFlag('jammer_active');
+    Engine.setFlag('jammer_active', false);
+
+    if (synthsPresent.length > 0 && Math.random() < 0.20 && !expState.retreated && !jammerWasActive) {
       expState.yieldMod *= 0.7;
       d.compromised = true;
       setTimeout(() => {
@@ -551,15 +579,46 @@ const Map = (() => {
       d.compromised = false;
     }
 
-    // Apply injury
+    // Apply injury — use field meds first, then consequences
     if (expState.injured) {
-      if (Engine.getRes('meds') > 0) {
+      const fieldMeds = (expState.pack?.meds || 0) - expState.medsUsed;
+      if (fieldMeds > 0) {
+        expState.medsUsed++;
+        UI.log('a field med kit used. they\'ll walk it off.', 'dim');
+      } else if (Engine.getRes('meds') > 0) {
+        // Fallback: shelter meds if no field meds packed — costs extra trust (delay in treatment)
         Engine.setRes('meds', Engine.getRes('meds') - 1);
-        UI.log('used a med kit on the way back.', 'dim');
+        Events.adjustTrust(-4);
+        UI.log('no field meds. used shelter supply on return. the delay cost us.', 'warning');
       } else {
-        Events.adjustTrust(-8);
-        UI.log("no medicine. they're hurt and there's nothing to do about it.", 'warning');
+        // Nothing — real consequences
+        Events.adjustTrust(-12);
+        UI.log('no medicine anywhere. the wound stays open.', 'danger');
+        // Chance to lose the survivor to the untreated injury
+        if (Math.random() < 0.40) {
+          const candidates = Survivors.getLiving().filter(s => !s.isSynth);
+          if (candidates.length > 0) {
+            const lost = candidates[Math.floor(Math.random() * candidates.length)];
+            setTimeout(() => {
+              UI.log(`${lost.name.split(' ')[0]} didn't survive the night. the wound was too much.`, 'danger');
+              Survivors.expose(lost);
+              Events.adjustTrust(-8);
+              Engine.set('stat_kia', (Engine.get('stat_kia') || 0) + 1);
+            }, 1500);
+          }
+        }
       }
+    }
+
+    // Ration drain — long runs burn through field rations
+    // If none packed and run was not a quick retreat, small yield penalty + log
+    const fieldRations = expState.pack?.rations || 0;
+    if (!expState.retreated && fieldRations === 0 && Survivors.getLiving().length > 0) {
+      // Party pushed through hungry — small yield hit and trust tick
+      expState.yieldMod = Math.max(0, expState.yieldMod - 0.1);
+      UI.log('the party ran hungry. it showed.', 'dim');
+    } else if (fieldRations > 0 && !expState.retreated) {
+      UI.log(`field rations held out.`, 'dim');
     }
 
     // KIA — lose a random non-synth survivor

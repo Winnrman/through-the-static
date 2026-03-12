@@ -1,8 +1,30 @@
-# through-the-static
-sci-fi ADR-inspired text and button browser adventure game.
+# Through the Static
 
-You find yourself ih the basement of an abandoned building in a city being watched by robots and sythetic robots alike. Your goal; survive and find a way to take down the robots.
-- Build your shelter, keep the lights on and supplies stocked
-- Be wary of everyone you bring into the comfort of your shelter; they might not be what they seem
-- Go on expeditions to the surface for resources and intel
-- Uncover the history of the robots and their reason for existing (and more)
+*The city is quiet. It shouldn't be.*
+
+A browser-based sci-fi text adventure inspired by audio drama storytelling. No downloads, no installs — just open and play.
+You're holed up in the basement of an abandoned building, surviving under the watch of robots and their synthetic enforcers. Your job: keep the lights on, stay alive, and figure out how to bring it all down.
+
+## Gameplay
+
+🔦 Build and maintain your shelter — manage supplies and keep the power running
+🤝 Choose your allies carefully — not everyone you meet is who they claim to be
+🌆 Run surface expeditions — scavenge for resources and uncover intel
+📡 Unravel the mystery — learn why the robots exist, and what they really want
+
+
+## Running the Game
+No setup required. Download or clone the repo, then open index.html in any modern browser.
+bashgit clone https://github.com/yourname/through-the-static
+### then open index.html
+
+## Built With
+Pure HTML and JavaScript. No frameworks, no backend, no dependencies.
+
+## Contributing
+Pull requests are welcome. A few ground rules:
+
+Always push to dev, never directly to main
+Keep PRs focused — one feature or fix at a time
+If you're adding a major mechanic, open an issue first so we can talk through it
+

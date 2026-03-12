@@ -1,4 +1,4 @@
-    :root {
+:root {
       --bg:        #0a0c0a;
       --surface:   #0f120f;
       --border:    #1e2a1e;
@@ -1089,4 +1089,140 @@
       border-color: var(--accent);
       color: var(--accent);
     }
-  </style>
+
+    /* ── LOADOUT PANEL ── */
+    #loadout-panel {
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
+      margin-top: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    #loadout-heading {
+      font-family: var(--font-ui);
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    #loadout-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .loadout-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 1;
+      transition: opacity 0.2s;
+    }
+
+    .loadout-row.loadout-empty {
+      opacity: 0.35;
+    }
+
+    .loadout-label {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text);
+      width: 56px;
+      flex-shrink: 0;
+    }
+
+    .loadout-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .loadout-btn {
+      background: transparent;
+      border: 1px solid var(--dim);
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 14px;
+      width: 22px;
+      height: 22px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      line-height: 1;
+      transition: border-color 0.15s, color 0.15s;
+    }
+
+    .loadout-btn:hover:not(:disabled) {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .loadout-btn:disabled {
+      opacity: 0.25;
+      cursor: not-allowed;
+    }
+
+    .loadout-val {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--bright);
+      width: 20px;
+      text-align: center;
+    }
+
+    .loadout-stock {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--dim);
+      margin-left: 4px;
+    }
+
+    #loadout-hint {
+      font-size: 11px;
+      color: var(--dim);
+      line-height: 1.6;
+      font-family: var(--font-mono);
+    }
+
+    .loadout-equip-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .loadout-equip-label {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text);
+    }
+
+    .loadout-equip-count {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--accent);
+    }
+
+    /* Tooltip — crafting buttons */
+    .craft-tooltip {
+      position: fixed;
+      transform: translateY(-50%);
+      background: var(--surface);
+      border: 1px solid var(--muted);
+      color: var(--bright);
+      font-size: 12px;
+      font-family: var(--font-mono);
+      padding: 8px 12px;
+      width: 210px;
+      line-height: 1.6;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s;
+      z-index: 200;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.7);
+    }
+    .craft-tooltip.visible { opacity: 1; }

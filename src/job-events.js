@@ -51,6 +51,33 @@ const JobEvents = (() => {
       }
     },
     {
+      id: 'engineer_fieldgear',
+      role: 'engineer',
+      condition: () => !Engine.getFlag('advanced_gear_unlocked') && Engine.getFlag('map_unlocked'),
+      fire: (s) => {
+        Engine.setFlag('advanced_gear_unlocked');
+        Crafting.unlockAdvancedGear();
+        const first = s.name.split(' ')[0];
+        UI.showEvent({
+          title: `// ${first.toLowerCase()}: field equipment`,
+          text: `${first} lays out a set of parts on the workbench. "we're sending people out with nothing. no suppressors. no way to block their signals while we're out there. i can build both — it'll take scrap and components but it's worth it." they look at the map. "next run that goes loud, someone's going to get hurt that didn't have to."`,
+          choices: [
+            {
+              label: "start on it.",
+              onChoose: () => UI.log(`${first} gets to work. new options in the crafting menu.`, 'dim')
+            },
+            {
+              label: "not a priority right now.",
+              onChoose: () => {
+                Engine.setFlag('advanced_gear_unlocked', false);
+                UI.log(`${first} packs the parts away. "whenever you're ready."`, 'dim');
+              }
+            }
+          ]
+        });
+      }
+    },
+    {
       id: 'forager_cache',
       role: 'forager',
       condition: () => !Engine.getFlag('ration_cache'),

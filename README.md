@@ -2,8 +2,6 @@
 
 ![screenshot](./screenshot.png)
 
-# Through the Static
-
 *The city is quiet. It shouldn't be.*
 
 A browser-based sci-fi text adventure inspired by audio drama storytelling. No downloads, no installs — just open and play.
